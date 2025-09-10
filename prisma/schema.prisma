@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// ENUMS for type-safety
+enum Role {
+    RESEARCHER
+    COMPANY
+    ADMIN
+}
+
+enum Severity {
+    LOW
+    MEDIUM
+    HIGH
+    CRITICAL
+}
+
+enum Status {
+    OPEN
+    IN_REVIEW
+    RESOLVED
+    REJECTED
+}
+
+// MODELS for database tables
+model User {
+    id           String   @id @default(cuid())
+    email        String   @unique
+    name         String
+    passwordHash String
+    role         Role     @default(RESEARCHER)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    // Relations
+    programs Program[] // A user with role COMPANY can have many programs
+    reports  Report[] // A user with role RESEARCHER can have many reports
+}
+
+model Program {
+    id          String   @id @default(cuid())
+    name        String
+    description String
+    scope       String
+    rewardMin   Int
+    rewardMax   Int
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    // Relations
+    company   User     @relation(fields: [companyId], references: [id], onDelete: Restrict)
+    companyId String
+    reports   Report[] // A program can have many reports
+}
+
+model Report {
+    id          String   @id @default(cuid())
+    title       String
+    description String
+    severity    Severity @default(LOW)
+    status      Status   @default(OPEN)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    // Relations
+    program      Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+    programId    String
+    researcher   User    @relation(fields: [researcherId], references: [id], onDelete: Cascade)
+    researcherId String
+}

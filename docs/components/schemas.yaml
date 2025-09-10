@@ -1,0 +1,65 @@
+RegisterPayload:
+    type: object
+    required:
+        - name
+        - email
+        - password
+    properties:
+        name:
+            type: string
+            example: John Doe
+        email:
+            type: string
+            format: email
+            example: user@example.com
+        password:
+            type: string
+            format: password
+            example: strongpassword123
+        role:
+            type: string
+            enum: [RESEARCHER, COMPANY]
+            default: RESEARCHER
+            example: RESEARCHER
+
+LoginPayload:
+    type: object
+    required:
+        - email
+        - password
+    properties:
+        email:
+            type: string
+            format: email
+            example: user@example.com
+        password:
+            type: string
+            format: password
+            example: strongpassword123
+
+User:
+    type: object
+    properties:
+        id:
+            type: string
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+            type: string
+            example: John Doe
+        email:
+            type: string
+            format: email
+            example: user@example.com
+        role:
+            type: string
+            enum: [RESEARCHER, COMPANY, ADMIN]
+
+AuthResponse:
+    type: object
+    properties:
+        token:
+            type: string
+            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        user:
+            $ref: '#/components/schemas/User'
