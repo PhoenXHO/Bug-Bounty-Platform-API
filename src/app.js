@@ -4,6 +4,7 @@ dotenv.config();
 import express from 'express';
 import router from './routes/auth.js';
 import swaggerUi from 'swagger-ui-express';
+import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
@@ -23,6 +24,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', router);
+
+// Global error handler (should be added after all routes)
+app.use(errorHandler);
 
 // Start the server
 app.listen(process.env.PORT, () => {
