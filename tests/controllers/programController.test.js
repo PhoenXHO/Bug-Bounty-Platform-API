@@ -4,22 +4,21 @@ import { createProgram, getPrograms, updateProgram, deleteProgram } from '../../
 import prisma from '../../src/utils/prisma.js';
 
 // Mock dependencies
-jest.mock('../../src/utils/prisma.js');
+jest.mock('../../src/utils/prisma.js', () => ({
+	program: {
+		create: jest.fn(),
+		findMany: jest.fn(),
+		findUnique: jest.fn(),
+		update: jest.fn(),
+		delete: jest.fn(),
+	}
+}));
 
 describe('Program Controller', () => {
 	let req;
 	let res;
 
 	beforeEach(() => {
-		// Mock the prisma program model
-		prisma.program = {
-			create: jest.fn(),
-			findMany: jest.fn(),
-			findUnique: jest.fn(),
-			update: jest.fn(),
-			delete: jest.fn(),
-		};
-
 		req = {
 			body: {},
 			params: {},

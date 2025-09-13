@@ -8,19 +8,18 @@ import prisma from '../../src/utils/prisma.js';
 // Mock dependencies
 jest.mock('../../src/utils/bcrypt.js');
 jest.mock('../../src/utils/jwt.js');
-jest.mock('../../src/utils/prisma.js');
+jest.mock('../../src/utils/prisma.js', () => ({
+	user: {
+		create: jest.fn(),
+		findUnique: jest.fn(),
+	}
+}));
 
 describe('Auth Controller', () => {
 	let req;
 	let res;
 
 	beforeEach(() => {
-		// Mock the prisma user model
-		prisma.user = {
-			create: jest.fn(),
-			findUnique: jest.fn(),
-		};
-
 		req = { body: {} };
 		res = {
 			status: jest.fn().mockReturnThis(),

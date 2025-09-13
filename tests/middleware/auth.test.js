@@ -6,7 +6,11 @@ import prisma from '../../src/utils/prisma.js';
 
 // Mock dependencies
 jest.mock('../../src/utils/jwt.js');
-jest.mock('../../src/utils/prisma.js');
+jest.mock('../../src/utils/prisma.js', () => ({
+	user: {
+		findUnique: jest.fn(),
+	}
+}));
 
 describe('Authentication Middleware', () => {
 	let req;
@@ -14,11 +18,6 @@ describe('Authentication Middleware', () => {
 	let next;
 
 	beforeEach(() => {
-		// Mock the prisma user model
-		prisma.user = {
-			findUnique: jest.fn(),
-		};
-
 		req = {
 			headers: {
 				authorization: 'Bearer valid-token'
