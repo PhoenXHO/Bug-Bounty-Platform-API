@@ -4,10 +4,10 @@ import { StatusCodes } from 'http-status-codes';
  * Global error-handling middleware for the application.
  * Catches all errors and sends a consistent JSON response.
  *
- * @param {Error} err - The error object.
- * @param {import('express').Request} req - The Express request object.
- * @param {import('express').Response} res - The Express response object.
- * @param {import('express').NextFunction} next - The next middleware function.
+ * @param {Error} err The error object.
+ * @param {import('express').Request} req The Express request object.
+ * @param {import('express').Response} res The Express response object.
+ * @param {import('express').NextFunction} next The next middleware function.
  */
 function errorHandler(err, req, res, next) {
 	// Default to 500 Internal Server Error if no status code is set
