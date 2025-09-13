@@ -84,7 +84,7 @@ async function login(req, res) {
 /**
  * Retrieves the current user's information from the request object.
  * This controller should be used after an authentication middleware.
- * @param {import('express').Request} req The request object (with req.user attached by middleware).
+ * @param {import('express').Request} req The request object, with `req.user` set by authentication middleware
  * @param {import('express').Response} res The response object
  * @returns {Promise<{
  *     user: { id: string, name: string, email: string, role: string }
