@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+
 import { hashPassword, comparePasswords } from '../utils/bcrypt.js';
 import { generateToken } from '../utils/jwt.js';
 import prisma from '../utils/prisma.js';
