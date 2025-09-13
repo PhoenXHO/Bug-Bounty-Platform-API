@@ -23,7 +23,7 @@ async function register(req, res) {
 		// Hash password, create user, and generate token
 		const hashedPassword = await hashPassword(password);
 		const user = await prisma.user.create({
-			data: { name: name, email: email, passwordHash: hashedPassword, role: role }
+			data: { name, email, passwordHash: hashedPassword, role }
 		});
 		const token = generateToken(user);
 
