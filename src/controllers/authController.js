@@ -5,10 +5,11 @@ import prisma from '../utils/prisma.js';
 
 /**
  * Validates input, hashes the password, creates a new user, then generates a JWT.
- * It returns the JWT and user information (without the password).
- * @param {import('express').Request} req The request object
- * @param {import('express').Response} res The response object
- * @returns {Promise<{ token: string, user: { id: string, name: string, email: string } }>} The user information and JWT
+ * @param {import('express').Request} req The request object, with body containing `{ name, email, password, role }`
+ * @returns {Promise<{
+ *     token: string,
+ *     user: { id: string, name: string, email: string }
+ * }>} The user information (without password) and JWT
  */
 async function register(req, res) {
 	const { name, email, password, role } = req.body;
@@ -44,9 +45,11 @@ async function register(req, res) {
 
 /**
  * Handles user login, validates credentials, and returns a JWT.
- * @param {import('express').Request} req The request object
- * @param {import('express').Response} res The response object
- * @returns {Promise<{ token: string, user: { id: string, name: string, email: string, role: string } }>} The user information and JWT
+ * @param {import('express').Request} req The request object, with body containing `{ email, password }`
+ * @returns {Promise<{
+ *     token: string,
+ *     user: { id: string, name: string, email: string, role: string }
+ * }>} The user information (without password) and JWT
  */
 async function login(req, res) {
 	const { email, password } = req.body;
@@ -79,8 +82,10 @@ async function login(req, res) {
 /**
  * Retrieves the current user's information from the request object.
  * This controller should be used after an authentication middleware.
- * @param {import('express').Request} req The request object (with req.user attached by middleware)
- * @param {import('express').Response} res The response object
+ * @param {import('express').Request} req The request object (with req.user attached by middleware).
+ * @returns {Promise<{
+ *     user: { id: string, name: string, email: string, role: string }
+ * }>} The user information (without password)
  */
 async function me(req, res) {
 	// The user is attached by the authentication middleware, just return it
