@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { api, generateTestUser, createTestUser, prisma } from '../helpers/testUtils.js';
+import { api, generateTestUser, prisma } from '../helpers/testUtils.js';
 
 // Ensure clean state before and after tests
 beforeAll(async () => {

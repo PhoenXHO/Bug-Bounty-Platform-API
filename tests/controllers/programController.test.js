@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { createProgram, getPrograms, updateProgram, deleteProgram } from '../../src/controllers/programController.js';
+import { createProgram, getPrograms, getProgramById, updateProgram, deleteProgram } from '../../src/controllers/programController.js';
 import prisma from '../../src/utils/prisma.js';
 
 // Mock dependencies
@@ -135,6 +135,60 @@ describe('Program Controller', () => {
 			// Assertions
 			expect(res.status).toHaveBeenCalledWith(StatusCodes.INTERNAL_SERVER_ERROR);
 			expect(res.json).toHaveBeenCalledWith({ error: 'Failed to fetch programs' });
+		});
+	});
+
+	describe('getProgramById', () => {
+		it('should return a program if it exists', async () => {
+			// Setup
+			const program = {
+				id: 'program-123',
+				name: 'Test Program',
+				description: 'Test Description',
+				scope: 'api.example.com',
+				rewardMin: 100,
+				rewardMax: 1000,
+				companyId: 'company-123'
+			};
+
+			req.params = { id: program.id };
+			prisma.program.findUnique.mockResolvedValue(program);
+
+			// Call the controller
+			await getProgramById(req, res);
+
+			// Assertions
+			expect(prisma.program.findUnique).toHaveBeenCalledWith({
+				where: { id: program.id }
+			});
+			expect(res.status).toHaveBeenCalledWith(StatusCodes.OK);
+			expect(res.json).toHaveBeenCalledWith(program);
+		});
+
+		it('should return 404 if program does not exist', async () => {
+			// Setup
+			req.params = { id: 'nonexistent-program' };
+			prisma.program.findUnique.mockResolvedValue(null);
+
+			// Call the controller
+			await getProgramById(req, res);
+
+			// Assertions
+			expect(res.status).toHaveBeenCalledWith(StatusCodes.NOT_FOUND);
+			expect(res.json).toHaveBeenCalledWith({ error: 'Program not found' });
+		});
+
+		it('should handle server errors', async () => {
+			// Setup
+			req.params = { id: 'program-123' };
+			prisma.program.findUnique.mockRejectedValue(new Error('Database error'));
+
+			// Call the controller
+			await getProgramById(req, res);
+
+			// Assertions
+			expect(res.status).toHaveBeenCalledWith(StatusCodes.INTERNAL_SERVER_ERROR);
+			expect(res.json).toHaveBeenCalledWith({ error: 'Failed to fetch program' });
 		});
 	});
 

@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { api, generateTestUser, createTestUser, createTestProgram, prisma } from '../helpers/testUtils.js';
+import { api, generateTestUser, createTestProgram, prisma } from '../helpers/testUtils.js';
 
 describe('Programs API', () => {
 	let companyUser;

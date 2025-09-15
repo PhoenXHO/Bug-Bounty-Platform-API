@@ -78,6 +78,24 @@ const createTestProgram = async (companyId) => {
 };
 
 /**
+ * Helper function to create a test report
+ * @param {string} programId The ID of the program for this report
+ * @param {string} researcherId The ID of the researcher creating the report
+ * @returns {Promise<Object>} The created report object
+ */
+const createTestReport = async (programId, researcherId) => {
+	return prisma.report.create({
+		data: {
+			title: `Test Report ${Date.now()}`,
+			description: 'This is a test vulnerability report created for integration tests',
+			programId,
+			researcherId,
+			status: 'OPEN',
+		}
+	});
+};
+
+/**
  * Cleanup function to delete all test data from the database
  */
 const cleanupTestData = async () => {
@@ -94,5 +112,6 @@ export {
 	createTestUser,
 	authenticateUser,
 	createTestProgram,
+	createTestReport,
 	cleanupTestData
 };

@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { authenticate } from '../../src/middleware/auth.js';
+import { authenticate, authorizeRole } from '../../src/middleware/auth.js';
 import { verifyToken } from '../../src/utils/jwt.js';
 import prisma from '../../src/utils/prisma.js';
 
@@ -94,5 +94,51 @@ describe('Authentication Middleware', () => {
 
 		expect(res.status).toHaveBeenCalledWith(StatusCodes.UNAUTHORIZED);
 		expect(res.json).toHaveBeenCalledWith({ error: 'User not found' });
+	});
+});
+
+describe('Authorization Middleware', () => {
+	let req;
+	let res;
+	let next;
+
+	beforeEach(() => {
+		req = {
+			user: {
+				id: 'user-123',
+				name: 'Test User',
+				email: 'test@example.com',
+				role: 'RESEARCHER'
+			}
+		};
+
+		res = {
+			status: jest.fn().mockReturnThis(),
+			json: jest.fn().mockReturnThis()
+		};
+
+		next = jest.fn();
+
+		// Clear all mocks before each test
+		jest.clearAllMocks();
+	});
+
+	it('should call next() when user role is allowed', () => {
+		const middleware = authorizeRole(['RESEARCHER', 'ADMIN']);
+		middleware(req, res, next);
+
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should return 403 when user role is not allowed', () => {
+		const middleware = authorizeRole(['COMPANY', 'ADMIN']);
+		middleware(req, res, next);
+
+		expect(next).not.toHaveBeenCalled();
+
+		expect(res.status).toHaveBeenCalledWith(StatusCodes.FORBIDDEN);
+		expect(res.json).toHaveBeenCalledWith({ 
+			error: expect.stringContaining('do not have permission')
+		});
 	});
 });
