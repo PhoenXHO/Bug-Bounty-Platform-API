@@ -52,6 +52,32 @@ async function getPrograms(req, res) {
 }
 
 /**
+ * Get a single program by its ID.
+ * *Publicly accessible.*
+ * @param {import('express').Request} req The request object, with `req.params.id`
+ * @param {import('express').Response} res The response object
+ * @returns {Promise<import('express').Response>} The program object or 404 if not found
+ */
+async function getProgramById(req, res) {
+	const { id } = req.params;
+
+	try {
+		const program = await prisma.program.findUnique({
+			where: { id },
+		});
+
+		if (!program) {
+			return res.status(StatusCodes.NOT_FOUND).json({ error: 'Program not found' });
+		}
+
+		return res.status(StatusCodes.OK).json(program);
+	} catch (error) {
+		console.error(error);
+		return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Failed to fetch program' });
+	}
+}
+
+/**
  * Update a program.
  * *Only the **COMPANY** that owns the program can update it.*
  * @param {import('express').Request} req The request object, with body containing `{ name, description, scope, rewardMin, rewardMax }` and `req.user` set by authentication middleware
@@ -114,4 +140,4 @@ async function deleteProgram(req, res) {
 	}
 }
 
-export { createProgram, getPrograms, updateProgram, deleteProgram };
+export { createProgram, getPrograms, getProgramById, updateProgram, deleteProgram };

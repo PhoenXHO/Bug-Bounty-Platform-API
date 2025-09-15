@@ -13,7 +13,7 @@ function loadYamlFile(filePath) {
 // Load base swagger file
 const swaggerDocument = loadYamlFile(path.join(__dirname, 'swagger.yaml'));
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 if (swaggerDocument.servers && swaggerDocument.servers.length > 0) {
 	swaggerDocument.servers[0].url = `http://localhost:${PORT}`;
 }

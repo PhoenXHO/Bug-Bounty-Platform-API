@@ -8,6 +8,9 @@
 		"start": "node src/app.js",
 		"dev": "nodemon src/app.js",
 		"test": "jest",
+		"test:unit": "jest tests/utils tests/middleware tests/controllers",
+		"test:integration": "set NODE_ENV=test && jest tests/integration --runInBand --setupFilesAfterEnv=./tests/setup.js",
+		"test:seed": "node -e \"import('./tests/seed/testSeed.js').then(({seed}) => seed())\"",
 		"lint": "eslint ."
 	},
 	"prisma": {
