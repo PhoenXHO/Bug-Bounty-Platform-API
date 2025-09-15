@@ -52,7 +52,7 @@ async function getPrograms(req, res) {
 }
 
 /**
- * Get a single program by its ID.
+ * Get a single program by its ID.  
  * *Publicly accessible.*
  * @param {import('express').Request} req The request object, with `req.params.id`
  * @param {import('express').Response} res The response object
@@ -78,7 +78,7 @@ async function getProgramById(req, res) {
 }
 
 /**
- * Update a program.
+ * Update a program.  
  * *Only the **COMPANY** that owns the program can update it.*
  * @param {import('express').Request} req The request object, with body containing `{ name, description, scope, rewardMin, rewardMax }` and `req.user` set by authentication middleware
  * @param {import('express').Response} res The response object
@@ -112,7 +112,7 @@ async function updateProgram(req, res) {
 }
 
 /**
- * Delete a program.
+ * Delete a program.  
  * *Only the **COMPANY** that owns the program can delete it.*
  * @param {import('express').Request} req The request object, with `req.user` set by authentication middleware
  * @param {import('express').Response} res The response object
