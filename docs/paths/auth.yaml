@@ -1,43 +1,43 @@
 /auth/register:
-    post:
-        summary: Register a new user
-        tags: [Auth]
-        requestBody:
-            required: true
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/RegisterPayload'
-        responses:
-            '201':
-                description: User registered successfully
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/AuthResponse'
-            '409':
-                description: Email already in user
-            '500':
-                description: Server error
+  post:
+    summary: Register a new user
+    tags: [Auth]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RegisterPayload"
+    responses:
+      "201":
+        description: User registered successfully
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthResponse"
+      "409":
+        description: Email already in user
+      "500":
+        description: Server error
 
 /auth/login:
-    post:
-        summary: Login a user
-        tags: [Auth]
-        requestBody:
-            required: true
-            content:
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/LoginPayload'
-        responses:
-            '200':
-                description: User logged in successfully
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/AuthResponse'
-            '401':
-                description: Invalid credentials
-            '500':
-                description: Server error
+  post:
+    summary: Login a user
+    tags: [Auth]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/LoginPayload"
+    responses:
+      "200":
+        description: User logged in successfully
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthResponse"
+      "401":
+        description: Invalid credentials
+      "500":
+        description: Server error

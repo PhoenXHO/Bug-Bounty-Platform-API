@@ -3,6 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 
 import authRouter from './routes/auth.js';
 import programRouter from './routes/programs.js';
+import reportRouter from './routes/reports.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -22,6 +23,7 @@ app.get('/api', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/programs', programRouter);
+app.use('/api/reports', reportRouter);
 
 // --- Swagger setup ---
 export const setupSwagger = (swaggerDocument) => {

@@ -1,0 +1,128 @@
+/programs:
+  get:
+    summary: Get all programs
+    description: Retrieve a list of all bug bounty programs. This endpoint is publicly accessible.
+    tags: [Programs]
+    responses:
+      "200":
+        description: List of programs
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Program"
+      "500":
+        description: Server error
+
+  post:
+    summary: Create a new program
+    description: Create a new bug bounty program. Only users with the COMPANY role can create programs.
+    tags: [Programs]
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateProgramPayload"
+    responses:
+      "201":
+        description: Program created successfully
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Program"
+      "400":
+        description: Bad request - missing required fields
+      "401":
+        description: Unauthorized - not authenticated
+      "403":
+        description: Forbidden - not a COMPANY user
+      "500":
+        description: Server error
+
+/programs/{id}:
+  get:
+    summary: Get a program by ID
+    description: Retrieve a specific bug bounty program by its ID. This endpoint is publicly accessible.
+    tags: [Programs]
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Program found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Program"
+      "404":
+        description: Program not found
+      "500":
+        description: Server error
+
+  put:
+    summary: Update a program
+    description: Update a bug bounty program. Only the COMPANY that owns the program can update it.
+    tags: [Programs]
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UpdateProgramPayload"
+    responses:
+      "200":
+        description: Program updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Program"
+      "401":
+        description: Unauthorized - not authenticated
+      "403":
+        description: Forbidden - not authorized to update this program
+      "404":
+        description: Program not found
+      "500":
+        description: Server error
+
+  delete:
+    summary: Delete a program
+    description: Delete a bug bounty program. Only the COMPANY that owns the program can delete it.
+    tags: [Programs]
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "204":
+        description: Program deleted successfully
+      "401":
+        description: Unauthorized - not authenticated
+      "403":
+        description: Forbidden - not authorized to delete this program
+      "404":
+        description: Program not found
+      "500":
+        description: Server error

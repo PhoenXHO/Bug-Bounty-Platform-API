@@ -1,65 +1,214 @@
 RegisterPayload:
-    type: object
-    required:
-        - name
-        - email
-        - password
-    properties:
-        name:
-            type: string
-            example: John Doe
-        email:
-            type: string
-            format: email
-            example: user@example.com
-        password:
-            type: string
-            format: password
-            example: strongpassword123
-        role:
-            type: string
-            enum: [RESEARCHER, COMPANY]
-            default: RESEARCHER
-            example: RESEARCHER
+  type: object
+  required:
+    - name
+    - email
+    - password
+  properties:
+    name:
+      type: string
+      example: John Doe
+    email:
+      type: string
+      format: email
+      example: user@example.com
+    password:
+      type: string
+      format: password
+      example: strongpassword123
+    role:
+      type: string
+      enum: [RESEARCHER, COMPANY]
+      default: RESEARCHER
+      example: RESEARCHER
 
 LoginPayload:
-    type: object
-    required:
-        - email
-        - password
-    properties:
-        email:
-            type: string
-            format: email
-            example: user@example.com
-        password:
-            type: string
-            format: password
-            example: strongpassword123
+  type: object
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+      format: email
+      example: user@example.com
+    password:
+      type: string
+      format: password
+      example: strongpassword123
 
 User:
-    type: object
-    properties:
-        id:
-            type: string
-            format: uuid
-            example: 123e4567-e89b-12d3-a456-426614174000
-        name:
-            type: string
-            example: John Doe
-        email:
-            type: string
-            format: email
-            example: user@example.com
-        role:
-            type: string
-            enum: [RESEARCHER, COMPANY, ADMIN]
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 123e4567-e89b-12d3-a456-426614174000
+    name:
+      type: string
+      example: John Doe
+    email:
+      type: string
+      format: email
+      example: user@example.com
+    role:
+      type: string
+      enum: [RESEARCHER, COMPANY, ADMIN]
 
 AuthResponse:
-    type: object
-    properties:
-        token:
-            type: string
-            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        user:
-            $ref: '#/components/schemas/User'
+  type: object
+  properties:
+    token:
+      type: string
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    user:
+      $ref: "#/components/schemas/User"
+
+Report:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 123e4567-e89b-12d3-a456-426614174000
+    title:
+      type: string
+      example: Cross-Site Scripting in Login Page
+    description:
+      type: string
+      example: I found a reflected XSS vulnerability in the login page...
+    severity:
+      type: string
+      enum: [LOW, MEDIUM, HIGH, CRITICAL]
+      example: MEDIUM
+    status:
+      type: string
+      enum: [OPEN, IN_REVIEW, RESOLVED, REJECTED]
+      example: OPEN
+    programId:
+      type: string
+      format: uuid
+      example: 123e4567-e89b-12d3-a456-426614174000
+    researcherId:
+      type: string
+      format: uuid
+      example: 123e4567-e89b-12d3-a456-426614174000
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+CreateReportPayload:
+  type: object
+  required:
+    - programId
+    - title
+    - description
+  properties:
+    programId:
+      type: string
+      format: uuid
+      example: 123e4567-e89b-12d3-a456-426614174000
+    title:
+      type: string
+      example: Cross-Site Scripting in Login Page
+    description:
+      type: string
+      example: I found a reflected XSS vulnerability in the login page...
+
+UpdateReportStatusPayload:
+  type: object
+  properties:
+    status:
+      type: string
+      enum: [OPEN, IN_REVIEW, RESOLVED, REJECTED]
+      example: IN_REVIEW
+    severity:
+      type: string
+      enum: [LOW, MEDIUM, HIGH, CRITICAL]
+      example: MEDIUM
+
+Program:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 123e4567-e89b-12d3-a456-426614174000
+    name:
+      type: string
+      example: Web Application Security Program
+    description:
+      type: string
+      example: Our company's web application bug bounty program
+    scope:
+      type: string
+      example: All *.example.com domains and subdomains
+    rewardMin:
+      type: integer
+      minimum: 0
+      example: 100
+    rewardMax:
+      type: integer
+      minimum: 0
+      example: 5000
+    companyId:
+      type: string
+      format: uuid
+      example: 123e4567-e89b-12d3-a456-426614174000
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+
+CreateProgramPayload:
+  type: object
+  required:
+    - name
+    - description
+    - scope
+    - rewardMin
+    - rewardMax
+  properties:
+    name:
+      type: string
+      example: Web Application Security Program
+    description:
+      type: string
+      example: Our company's web application bug bounty program
+    scope:
+      type: string
+      example: All *.example.com domains and subdomains
+    rewardMin:
+      type: integer
+      minimum: 0
+      example: 100
+    rewardMax:
+      type: integer
+      minimum: 0
+      example: 5000
+
+UpdateProgramPayload:
+  type: object
+  properties:
+    name:
+      type: string
+      example: Web Application Security Program
+    description:
+      type: string
+      example: Our company's web application bug bounty program
+    scope:
+      type: string
+      example: All *.example.com domains and subdomains
+    rewardMin:
+      type: integer
+      minimum: 0
+      example: 100
+    rewardMax:
+      type: integer
+      minimum: 0
+      example: 5000

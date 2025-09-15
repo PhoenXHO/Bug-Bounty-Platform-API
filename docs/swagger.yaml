@@ -1,21 +1,26 @@
 openapi: 3.0.0
 info:
-    title: Bug Bounty Platform API
-    version: 1.0.0
-    description: API documentation for the Bug Bounty Platform backend project.
+  title: Bug Bounty Platform API
+  version: 1.0.0
+  description: API documentation for the Bug Bounty Platform backend project.
 
 servers:
-    - url: http://localhost:3000
-      description: Development server
+  - url: http://localhost:3000
+    description: Development server
 
 tags:
-    - name: Auth
-      description: Authentication endpoints
-    - name: Programs
-      description: Bug bounty program management
-    - name: Reports
-      description: Vulnerability report submissions and management
+  - name: Auth
+    description: Authentication endpoints
+  - name: Programs
+    description: Bug bounty program management
+  - name: Reports
+    description: Vulnerability report submissions and management
 
 paths: {}
 
-components: {}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

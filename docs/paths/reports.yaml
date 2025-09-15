@@ -1,0 +1,128 @@
+/reports:
+  post:
+    summary: Create a new bug report
+    description: Submit a new vulnerability report for a specific program. Only authenticated researchers can submit reports.
+    tags: [Reports]
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateReportPayload'
+    responses:
+      '201':
+        description: Report created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+      '400':
+        description: Bad request - missing required fields
+      '401':
+        description: Unauthorized - not authenticated or not a researcher
+      '404':
+        description: Program not found
+      '500':
+        description: Server error
+
+/reports/program/{programId}:
+  get:
+    summary: Get all reports for a program
+    description: Retrieve all reports for a specific program. Companies can see all reports for their own programs, while researchers can only see their own reports for a program.
+    tags: [Reports]
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: programId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: List of reports
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Report'
+      '401':
+        description: Unauthorized - not authenticated
+      '403':
+        description: Forbidden - not authorized to view these reports
+      '404':
+        description: Program not found
+      '500':
+        description: Server error
+
+/reports/{id}:
+  get:
+    summary: Get a specific report by ID
+    description: Retrieve a specific report by its ID. Access is restricted to the submitting researcher or the program-owning company.
+    tags: [Reports]
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      '200':
+        description: Report found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+      '401':
+        description: Unauthorized - not authenticated
+      '403':
+        description: Forbidden - not authorized to view this report
+      '404':
+        description: Report not found
+      '500':
+        description: Server error
+
+/reports/{id}/status:
+  patch:
+    summary: Update report status or severity
+    description: Update the status or severity of a specific report. Only the company that owns the program can perform this action.
+    tags: [Reports]
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateReportStatusPayload'
+    responses:
+      '200':
+        description: Report updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Report'
+      '400':
+        description: Bad request - missing status and severity
+      '401':
+        description: Unauthorized - not authenticated
+      '403':
+        description: Forbidden - not authorized to update this report
+      '404':
+        description: Report not found
+      '500':
+        description: Server error
