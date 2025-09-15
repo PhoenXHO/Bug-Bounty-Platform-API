@@ -14,6 +14,10 @@
                 $ref: "#/components/schemas/Program"
       "500":
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
 
   post:
     summary: Create a new program
@@ -36,12 +40,28 @@
               $ref: "#/components/schemas/Program"
       "400":
         description: Bad request - missing required fields
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/BadRequestError"
       "401":
         description: Unauthorized - not authenticated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
       "403":
         description: Forbidden - not a COMPANY user
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ForbiddenError"
       "500":
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
 
 /programs/{id}:
   get:
@@ -64,8 +84,16 @@
               $ref: "#/components/schemas/Program"
       "404":
         description: Program not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/NotFoundError"
       "500":
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
 
   put:
     summary: Update a program
@@ -95,12 +123,28 @@
               $ref: "#/components/schemas/Program"
       "401":
         description: Unauthorized - not authenticated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
       "403":
         description: Forbidden - not authorized to update this program
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ForbiddenError"
       "404":
         description: Program not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/NotFoundError"
       "500":
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
 
   delete:
     summary: Delete a program
@@ -120,9 +164,25 @@
         description: Program deleted successfully
       "401":
         description: Unauthorized - not authenticated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
       "403":
         description: Forbidden - not authorized to delete this program
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ForbiddenError"
       "404":
         description: Program not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/NotFoundError"
       "500":
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"

@@ -31,10 +31,18 @@ if (fs.existsSync(pathsDir)) {
 }
 
 // Load components
+swaggerDocument.components = swaggerDocument.components || {};
+
+// Load schemas
 const schemasPath = path.join(__dirname, 'components', 'schemas.yaml');
 if (fs.existsSync(schemasPath)) {
-	swaggerDocument.components = swaggerDocument.components || {};
 	swaggerDocument.components.schemas = loadYamlFile(schemasPath);
+}
+
+// Load responses
+const responsesPath = path.join(__dirname, 'components', 'responses.yaml');
+if (fs.existsSync(responsesPath)) {
+	swaggerDocument.components.responses = loadYamlFile(responsesPath);
 }
 
 export default swaggerDocument;

@@ -1,0 +1,55 @@
+Error:
+  type: object
+  properties:
+    error:
+      type: string
+      description: Error message describing what went wrong
+      example: Something went wrong
+
+BadRequestError:
+  type: object
+  properties:
+    error:
+      type: string
+      description: Invalid request parameters
+      example: All fields are required
+
+UnauthorizedError:
+  type: object
+  properties:
+    error:
+      type: string
+      description: Authentication failed
+      example: Invalid email or password
+
+ForbiddenError:
+  type: object
+  properties:
+    error:
+      type: string
+      description: Insufficient permissions
+      example: You are not authorized to perform this action
+
+NotFoundError:
+  type: object
+  properties:
+    error:
+      type: string
+      description: Resource not found
+      example: Resource not found
+
+ConflictError:
+  type: object
+  properties:
+    error:
+      type: string
+      description: Resource conflict
+      example: A user with this email already exists
+
+ServerError:
+  type: object
+  properties:
+    error:
+      type: string
+      description: Internal server error
+      example: Something went wrong

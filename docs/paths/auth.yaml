@@ -15,10 +15,24 @@
           application/json:
             schema:
               $ref: "#/components/schemas/AuthResponse"
+      "400":
+        description: Bad request - missing required fields
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/BadRequestError"
       "409":
-        description: Email already in user
+        description: Email already in use
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ConflictError"
       "500":
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
 
 /auth/login:
   post:
@@ -37,7 +51,50 @@
           application/json:
             schema:
               $ref: "#/components/schemas/AuthResponse"
+      "400":
+        description: Bad request - missing required fields
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/BadRequestError"
       "401":
         description: Invalid credentials
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
       "500":
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
+
+/auth/me:
+  get:
+    summary: Get current user information
+    description: Retrieves the current authenticated user's profile information
+    tags: [Auth]
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: User profile retrieved successfully
+        content:
+          application/json:
+            schema:
+              properties:
+                user:
+                  $ref: "#/components/schemas/User"
+      "401":
+        description: Unauthorized - not authenticated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
+      "500":
+        description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"

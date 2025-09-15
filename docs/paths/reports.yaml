@@ -20,12 +20,28 @@
               $ref: '#/components/schemas/Report'
       '400':
         description: Bad request - missing required fields
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/BadRequestError"
       '401':
         description: Unauthorized - not authenticated or not a researcher
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
       '404':
         description: Program not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/NotFoundError"
       '500':
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
 
 /reports/program/{programId}:
   get:
@@ -52,12 +68,28 @@
                 $ref: '#/components/schemas/Report'
       '401':
         description: Unauthorized - not authenticated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
       '403':
         description: Forbidden - not authorized to view these reports
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ForbiddenError"
       '404':
         description: Program not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/NotFoundError"
       '500':
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
 
 /reports/{id}:
   get:
@@ -82,12 +114,28 @@
               $ref: '#/components/schemas/Report'
       '401':
         description: Unauthorized - not authenticated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
       '403':
         description: Forbidden - not authorized to view this report
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ForbiddenError"
       '404':
         description: Report not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/NotFoundError"
       '500':
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
 
 /reports/{id}/status:
   patch:
@@ -118,11 +166,31 @@
               $ref: '#/components/schemas/Report'
       '400':
         description: Bad request - missing status and severity
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/BadRequestError"
       '401':
         description: Unauthorized - not authenticated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/UnauthorizedError"
       '403':
         description: Forbidden - not authorized to update this report
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ForbiddenError"
       '404':
         description: Report not found
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/NotFoundError"
       '500':
         description: Server error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/ServerError"
