@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { authenticate, authorizeRole } from '../middleware/auth.js';
+import { reportLimiter } from '../middleware/rateLimiter.js';
 import { 
     createReport, 
     getReportsForProgram, 
@@ -11,7 +12,7 @@ import {
 const router = express.Router();
 
 // Create a new report (RESEARCHER only)
-router.post('/', authenticate, authorizeRole(['RESEARCHER']), createReport);
+router.post('/', reportLimiter, authenticate, authorizeRole(['RESEARCHER']), createReport);
 
 // Get all reports for a program 
 // (COMPANY can see all reports for their program, RESEARCHER can see only their own)

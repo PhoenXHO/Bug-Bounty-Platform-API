@@ -2,7 +2,20 @@ openapi: 3.0.0
 info:
   title: Bug Bounty Platform API
   version: 1.0.0
-  description: API documentation for the Bug Bounty Platform backend project.
+  description: |
+    API documentation for the Bug Bounty Platform backend project.
+    
+    ## Rate Limiting
+    This API implements rate limiting to ensure fair usage:
+    - **General API**: 100 requests per 15 minutes per IP
+    - **Authentication**: 5 requests per 15 minutes per IP
+    - **Report Creation**: 10 requests per hour per IP
+    - **Program Creation**: 5 requests per day per IP
+    
+    Rate limit information is returned in response headers:
+    - `RateLimit-Limit`: Number of requests allowed in the time window
+    - `RateLimit-Remaining`: Number of requests remaining in the current window
+    - `RateLimit-Reset`: Time when the rate limit window resets
 
 servers:
   - url: http://localhost:3000

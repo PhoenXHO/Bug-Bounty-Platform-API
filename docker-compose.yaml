@@ -1,17 +1,19 @@
-version: '3.8'
 services:
   db:
     image: postgres:17
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: PhoenXHO-2002
+      POSTGRES_PASSWORD: admin
       POSTGRES_DB: bug-bounty-platform
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-  app:
-    build: .
+  backend:
+    build:
+      context: .
+      args:
+        NODE_ENV: production
     env_file:
       - .env
     ports:

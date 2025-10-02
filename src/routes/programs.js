@@ -1,6 +1,7 @@
 import express from 'express';
 import { createProgram, getPrograms, getProgramById, updateProgram, deleteProgram } from '../controllers/programController.js';
 import { authenticate, authorizeRole } from '../middleware/auth.js';
+import { programLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/:id', getProgramById);
 // Only authenticated users can access these routes
 
 // Create a new program (only COMPANY users)
-router.post('/', authenticate, authorizeRole(['COMPANY']), createProgram);
+router.post('/', programLimiter, authenticate, authorizeRole(['COMPANY']), createProgram);
 
 // Update a program (only COMPANY users who own the program)
 router.put('/:id', authenticate, authorizeRole(['COMPANY']), updateProgram);

@@ -53,3 +53,15 @@ ServerError:
       type: string
       description: Internal server error
       example: Something went wrong
+
+RateLimitError:
+  type: object
+  properties:
+    error:
+      type: string
+      description: Rate limit exceeded
+      example: Too many requests from this IP, please try again later.
+    retryAfter:
+      type: string
+      description: When to retry the request
+      example: 15 minutes

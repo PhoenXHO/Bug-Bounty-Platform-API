@@ -5,11 +5,15 @@ import authRouter from './routes/auth.js';
 import programRouter from './routes/programs.js';
 import reportRouter from './routes/reports.js';
 import errorHandler from './middleware/errorHandler.js';
+import { generalLimiter } from './middleware/rateLimiter.js';
 
 const app = express();
 
 // --- Middleware ---
 app.use(express.json());
+
+// Apply general rate limiting to all requests
+app.use('/api', generalLimiter);
 
 app.use((req, res, next) => {
 	console.log(`[${new Date().toISOString()}]  ${req.method} ${req.url}`);
